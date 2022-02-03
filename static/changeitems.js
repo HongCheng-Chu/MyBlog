@@ -43,6 +43,6 @@ function pushcard(evt, name) {
         btn[i].className = btn[i].className.replace(" active", "");
     }
 
-    document.getElementById(name).style.display = "flex";
+    document.getElementById(name).style.display = "block";
     evt.currentTarget.className += " active";
 }

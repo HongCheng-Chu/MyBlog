@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" rel="stylesheet" href="{{url_for('static',filename='overall.css')}}" />
     <script type="text/javascript" src="{{url_for('static',filename='changeitems.js')}}"></script>
-    <title>Blog</title>
+    <title>MyBlog</title>
 </head>
 <body>
     <header class="global-header">
         <ul class="title" id="myLinks">
             {% for item in header_items %}
+            {% if item.name == 'Login' and current_user.is_authenticated %}
+            <li><a href="../logout">[Logout]</a></li>
+            {% else %}
             <li><a href={{item.url}}>[{{item.name}}]</a></li>
+            {% endif %}
             {% endfor %}
-            <li><a href="../login">[登入]</a></li>
         </ul>
     </header>
 
@@ -24,31 +27,26 @@
                 <div class="title">Girls List</div>
                 <input type="text" id="q" name="q" onkeyup="SearchGirls()" placeholder="Search for names.." autocomplete="off">
             </div>
-            <!--js只能用id, css可用class & id-->
-            <!--class可以被使用很多次, id只可使用一次-->
             <div class="search-list" id="search-list">
                 {% for item in girls_card %}
-                <button class="girlname" onclick="pushcard(event, '{{item.enname}}')">{{item.enname}} ({{item.chname}}, {{item.jpname}})</button>
+                <button class="girlname" onclick="pushcard(event, '{{item.jp}}')">{{item.en}} ({{item.ch}}, {{item.jp}})</button>
                 {% endfor %}
             </div>
         </div>
-        <div class="main">
+        <div class="girls">
             <div class="girls-card">
                 {% for item in girls_card %}
                 <div class="item">
-                    <div class="profile" id="{{item.enname}}">
-                        <div class="image-location">
-                            <img src="{{item.image}}" alt="{{item.jpname}}" />
-                        </div>
+                    <div class="profile" id="{{item.jp}}">
                         <div class="profile-table">
+                            <div class="image-location">
+                                <img src="{{item.headshot}}" alt="{{item.jp}}" />
+                            </div>
                             <ul class="profile-list">
-                                <li class="girl-name">名字 : {{item.jpname}}</li>
+                                <li class="girl-name">名字 : {{item.jp}}</li>
                                 <li class="girl-birth">生日 : {{item.birth}}</li>
                                 <li class="girl-company">所屬公司 : {{item.company}}</li>
                                 <li class="girl-body">身材 : {{item.body}}</li>
-                                <li class="girl-cup">罩杯 : {{item.cup}}</li>
-                                <li class="girl-Twitter">Twitter : {{item.twitter}}</li>
-                                <li class="girl-IG">IG : {{item.ig}}</li>
                             </ul>
                         </div>
                         <div class="video-list">
@@ -59,7 +57,13 @@
                                 </dl>
                                 <ul class="video-title">
                                     {% for v in item.video[k] %}
-                                    <li>{{v.number}} {{v.title}} ({{v.day}})</li>
+                                    <li>
+                                        <a class="tooltip" href="{{v.video}}" target="_blank">{{v.number}} {{v.title}} ({{v.day}})
+                                        <span>
+                                            <img src="{{v.video}}" />
+                                        </span>
+                                        </a>
+                                    </li>
                                     {% endfor %}
                                 </ul>
                             </div>
