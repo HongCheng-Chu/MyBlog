@@ -1,5 +1,8 @@
 # MyBlog
-Including AV actresses personal information sorting, source by AVgirls-crawler
+Including actresses personal information sorting, source by actress crawler.
+
+## Warning
+- Frontend web structure will turn to use Vue.js, backend remain Python.
 
 ## Tool
 - Microsoft Visual Studio
